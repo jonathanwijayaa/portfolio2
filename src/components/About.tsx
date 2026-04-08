@@ -1,3 +1,5 @@
+import { C } from '../palette'
+
 export default function About() {
   return (
     <section id="about" aria-label="About me" className="mb-28 scroll-mt-24">
@@ -5,47 +7,47 @@ export default function About() {
       <div
         className="sticky top-0 z-20 -mx-6 mb-8 px-6 py-5 lg:hidden"
         style={{
-          backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(10,25,47,0.85)',
-          borderBottom: '1px solid rgba(136,146,176,0.08)',
+          backdropFilter: 'blur(14px)',
+          backgroundColor: `${C.bg}cc`,
+          borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <h2
-          className="text-xs font-bold uppercase tracking-widest"
-          style={{ color: '#ccd6f6' }}
-        >
+        <h2 className="text-xs font-bold uppercase tracking-widest" style={{ color: C.textPrimary }}>
           About
         </h2>
       </div>
 
-      <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: '#8892b0' }}>
-        {/* Photo */}
+      <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: C.textSecondary }}>
+        {/* Photo — no tint overlay needed, the dark frame does the work */}
         <div className="mb-2">
           <div
-            className="relative w-48 h-56 rounded-2xl overflow-hidden shadow-xl group"
-            style={{ border: '2px solid rgba(100,255,218,0.2)' }}
+            className="relative w-48 h-56 rounded-2xl overflow-hidden shadow-2xl group"
+            style={{ border: `2px solid ${C.borderHover}` }}
           >
             <img
               src="/assets/image/foto2.jpg"
               alt="Jonathan Wijaya"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
+            {/* Very subtle warm vignette so edges feel connected to the dark bg */}
             <div
               className="absolute inset-0 pointer-events-none"
-              style={{ background: 'rgba(100,255,218,0.05)', mixBlendMode: 'screen' }}
+              style={{
+                background: `radial-gradient(ellipse at center, transparent 55%, ${C.bg}55 100%)`,
+              }}
             />
           </div>
         </div>
 
         <p>
           Saya fokus membangun{' '}
-          <span style={{ color: '#ccd6f6', fontWeight: 500 }}>solusi web yang efisien</span> dan{' '}
-          <span style={{ color: '#ccd6f6', fontWeight: 500 }}>user-friendly</span>. Membantu bisnis
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>solusi web yang efisien</span> dan{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>user-friendly</span>. Membantu bisnis
           bertransformasi secara digital melalui kode yang bersih dan terstruktur.
         </p>
         <p>
           As an{' '}
-          <span style={{ color: '#ccd6f6', fontWeight: 500 }}>Informatics student</span>, I
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>Informatics student</span>, I
           specialize in crafting responsive front-end interfaces and intuitive Android applications.
           I believe technology should simplify, not complicate — every line of code should serve a
           purpose.
@@ -53,7 +55,7 @@ export default function About() {
         <p>
           In my spare time, you can find me exploring new tech stacks, contributing to open-source
           projects, or designing interfaces in Figma. I'm currently open to{' '}
-          <span style={{ color: '#64ffda', fontWeight: 500 }}>new opportunities</span> and
+          <span style={{ color: C.accent, fontWeight: 500 }}>new opportunities</span> and
           collaborations.
         </p>
 
@@ -65,16 +67,16 @@ export default function About() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-mono text-sm rounded px-4 py-2 transition-all duration-200 group"
             style={{
-              color: '#64ffda',
-              border: '1px solid rgba(100,255,218,0.3)',
+              color: C.accent,
+              border: `1px solid ${C.accent}44`,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(100,255,218,0.08)'
-              e.currentTarget.style.borderColor = '#64ffda'
+              e.currentTarget.style.backgroundColor = C.accentDim
+              e.currentTarget.style.borderColor = C.accent
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.borderColor = 'rgba(100,255,218,0.3)'
+              e.currentTarget.style.borderColor = `${C.accent}44`
             }}
           >
             View Full CV
