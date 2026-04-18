@@ -69,8 +69,15 @@ export default function App() {
       <div className="mx-auto max-w-screen-xl px-6 md:px-12 lg:px-24">
         <div className="lg:flex lg:gap-4">
 
-          {/* LEFT — Sidebar: ALWAYS fixed in place */}
-          <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[45%] lg:flex-col lg:shrink-0">
+          {/* LEFT — Sidebar: collapses when detail panel is open */}
+          <div
+            className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:shrink-0 overflow-hidden transition-all duration-500 ease-in-out"
+            style={{
+              width: isOpen ? '0%' : '45%',
+              opacity: isOpen ? 0 : 1,
+              pointerEvents: isOpen ? 'none' : 'auto',
+            }}
+          >
             <Sidebar activeSection={activeSection} />
           </div>
 
