@@ -40,23 +40,23 @@ export default function About() {
         </div>
 
         <p>
-          Saya fokus membangun{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>solusi web yang efisien</span> dan{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>user-friendly</span>. Membantu bisnis
-          bertransformasi secara digital melalui kode yang bersih dan terstruktur.
+          An{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>Informatics student</span>{' '}
+          specializing in Full-stack Web &amp; Android Development with a strong{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>UI/UX foundation</span>. Proven collaborator in
+          high-impact organizations and international projects, successfully managing stakeholders and
+          administrative workflows for events.
         </p>
         <p>
-          As an{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>Informatics student</span>, I
-          specialize in crafting responsive front-end interfaces and intuitive Android applications.
-          I believe technology should simplify, not complicate — every line of code should serve a
-          purpose.
+          Passionate about{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>bridging technical complexity</span>{' '}
+          with intuitive design through agile teamwork. I believe every line of code should serve a
+          purpose — building solutions that are as elegant as they are functional.
         </p>
         <p>
-          In my spare time, you can find me exploring new tech stacks, contributing to open-source
-          projects, or designing interfaces in Figma. I'm currently open to{' '}
+          Currently open to{' '}
           <span style={{ color: C.accent, fontWeight: 500 }}>new opportunities</span> and
-          collaborations.
+          collaborations in web development, Android engineering, or UI/UX design.
         </p>
 
         {/* CV Link */}

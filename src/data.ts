@@ -33,73 +33,64 @@ export const socialLinks = [
 
 export const experiences = [
   {
-    period: 'Jan 2025 — Present',
-    role: 'Front-End Developer Intern',
-    company: 'PT. Digital Nusantara',
+    period: 'Aug 2025 — Present',
+    role: 'Web Developer Intern',
+    company: 'Studyfirst',
     companyUrl: '#',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    tech: ['React', 'TypeScript', 'TailwindCSS', 'REST API'],
+      'Developed a React-based LMS using TypeScript and Tailwind CSS, integrating Supabase for role-based authentication and database management. Built a WordPress landing page for IELTS Simulation, collaborating with UI/UX and Product Management teams to translate designs into functional, interactive layouts. Maintained company website via WordPress, managing 17+ SEO articles and recruitment updates in coordination with Marketing and HR teams.',
+    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'WordPress'],
   },
   {
-    period: 'Jul 2024 — Dec 2024',
-    role: 'Android Developer',
-    company: 'Freelance',
-    companyUrl: '#',
+    period: 'Feb 2024 — Present',
+    role: 'Part-Time Assistant Lecturer',
+    company: 'Universitas Kristen Duta Wacana',
+    companyUrl: 'https://www.ukdw.ac.id/',
     description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    tech: ['Kotlin', 'Android Studio', 'Firebase', 'MVVM'],
-  },
-  {
-    period: 'Feb 2024 — Jun 2024',
-    role: 'Web Development Volunteer',
-    company: 'Tech Community Bandung',
-    companyUrl: '#',
-    description:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
-    tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
+      'Facilitated lab sessions for 4 core courses including Database Systems, Computer Networks, Web Development, and Software Quality Assurance, for classes of up to 40 students. Developed 20+ practical lab modules simulating real-world scenarios, achieving a 90% student project success rate. Evaluated 700+ technical submissions, providing individualized feedback on coding and system configurations.',
+    tech: ['Database Systems', 'Computer Networks', 'Web Development', 'SQL'],
   },
 ]
 
 export const projects = [
   {
-    title: 'AI News Portal',
+    title: 'Aplikasi Data Relawan Kota Yogyakarta',
     description:
-      'A full-featured AI-powered news aggregation portal with real-time content updates and a clean, responsive interface built with React.',
-    tech: ['React', 'JavaScript', 'REST API', 'Vercel'],
-    liveUrl: 'https://ai-news-portal-nine.vercel.app/',
+      'Designed high-fidelity prototypes in Figma using user-centered principles. Developed the frontend with React.js, TypeScript, and Tailwind CSS, translating complex data requirements into a responsive, high-performance, and maintainable codebase. Collaborated directly with BAPPEDA stakeholders to implement secure data management features.',
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Figma', 'Supabase'],
+    liveUrl: null,
     githubUrl: null,
     image: '/assets/image/ainewsportal.png',
     featured: true,
   },
   {
-    title: 'SealNote',
+    title: 'LMS Studyfirst',
     description:
-      'A secure, fast note-taking Android application with encrypted local storage, clean MVVM architecture, and an intuitive user experience.',
-    tech: ['Kotlin', 'Android', 'Firebase', 'MVVM'],
+      'Developed a responsive and centralized LMS frontend using React.js, TypeScript, and Tailwind CSS, providing a seamless user interface for Students, Course Managers, and Administrators. Integrated Supabase for secure user authentication and real-time database management with robust role-based access control.',
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     liveUrl: null,
-    githubUrl: 'https://github.com/jonathanwijayaa/SealNote',
+    githubUrl: null,
     image: '/assets/image/sealnote.png',
     featured: true,
   },
   {
-    title: 'Office of Dicky Huang',
+    title: 'AI News Portal',
     description:
-      'A professional company profile website with polished design, smooth animations, and mobile-first responsive layout.',
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    liveUrl: 'https://jonathanwijayaa.github.io/OfficeofDickyHuang/',
+      'Developed a dynamic news aggregator platform using React.js and TypeScript, providing real-time updates on AI trends by integrating third-party News APIs. Architected a responsive and high-performance UI with Tailwind CSS ensuring optimal readability across various device screen sizes.',
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'News API', 'Vercel'],
+    liveUrl: 'https://ai-news-portal-nine.vercel.app/',
     githubUrl: null,
-    image: '/assets/image/LogoDickyHuang.jpg',
+    image: '/assets/image/ainewsportal.png',
     featured: false,
   },
   {
-    title: 'Fishbot Go',
+    title: 'SealNote',
     description:
-      'A fun 2D arcade game developed collaboratively featuring engaging gameplay mechanics and pixel art visuals published on itch.io.',
-    tech: ['Game Dev', 'Unity', 'Collaborative'],
-    liveUrl: 'https://nicholandn22.itch.io/fishbot',
-    githubUrl: null,
-    image: '/assets/image/fishbot.png',
+      'Conceptualized a "Stealth Mode" UI/UX featuring a functional calculator interface that disguises the secure note-taking system. Developed using Kotlin and Jetpack Compose implementing Material Design 3 principles. Engineered a multi-layered security architecture with biometric authentication (Fingerprint/Face ID) and Firebase integration.',
+    tech: ['Kotlin', 'Jetpack Compose', 'Firebase', 'Material Design 3'],
+    liveUrl: null,
+    githubUrl: 'https://github.com/jonathanwijayaa/SealNote',
+    image: '/assets/image/sealnote.png',
     featured: false,
   },
 ]

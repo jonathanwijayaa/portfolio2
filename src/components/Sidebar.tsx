@@ -30,10 +30,10 @@ export default function Sidebar({ activeSection }: SidebarProps) {
             </h1>
           </a>
           <h2 className="text-lg font-semibold mb-4" style={{ color: C.textPrimary, opacity: 0.85 }}>
-            Front-End Developer &amp; Android Engineer
+            Full-stack Web &amp; Android Developer
           </h2>
           <p className="text-sm leading-relaxed max-w-xs" style={{ color: C.textSecondary }}>
-            I build efficient, accessible, and pixel-perfect digital experiences.
+            Informatics student specializing in Full-stack Web &amp; Android Development with a strong UI/UX foundation. Passionate about bridging technical complexity with intuitive design.
           </p>
         </div>
 
