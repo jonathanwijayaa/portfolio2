@@ -4,6 +4,7 @@ import About from './components/About'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Footer from './components/Footer'
+import FlashlightCursor from './components/FlashlightCursor'
 import { C } from './palette'
 
 const SECTIONS = ['about', 'experience', 'projects']
@@ -28,13 +29,8 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen" style={{ backgroundColor: C.bg, color: C.textSecondary }}>
-      {/* Subtle radial glow — warm, not blue */}
-      <div
-        className="pointer-events-none fixed inset-0 z-30"
-        style={{
-          background: `radial-gradient(700px at 25% 30%, ${C.accentGlow}, transparent 75%)`,
-        }}
-      />
+      {/* Dynamic flashlight cursor */}
+      <FlashlightCursor />
 
       <div className="mx-auto min-h-screen max-w-screen-xl px-6 md:px-12 lg:px-24">
         <div className="lg:flex lg:gap-4 lg:justify-between">
