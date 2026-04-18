@@ -3,7 +3,8 @@ import { ArrowUpRightIcon } from './Icons'
 import { C } from '../palette'
 import type { CardItem } from '../App'
 
-const MAX_BULLETS = 2
+// ~5 lines of text-xs leading-relaxed (12px × 1.625 = 19.5px/line → 5 lines ≈ 97px)
+const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ExperienceProps {
   selectedCard: CardItem | null
@@ -11,17 +12,6 @@ interface ExperienceProps {
 }
 
 export default function Experience({ selectedCard, onSelect }: ExperienceProps) {
-  const cardOn = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget as HTMLDivElement
-    el.style.backgroundColor = C.surface
-    el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-  }
-  const cardOff = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget as HTMLDivElement
-    el.style.backgroundColor = 'transparent'
-    el.style.boxShadow = 'none'
-  }
-
   return (
     <section id="experience" aria-label="Work experience" className="mb-28 scroll-mt-24">
       {/* Mobile section label */}
@@ -41,26 +31,42 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
       <ol className="space-y-1">
         {experiences.map((exp, i) => {
           const cardItem: CardItem = { ...exp, title: exp.role, type: 'experience' }
-          const isSelected = selectedCard?.title === exp.role && selectedCard?.company === exp.company
-          const bullets = exp.description
-          const hasMore = bullets.length > MAX_BULLETS
-          const visible = hasMore ? bullets.slice(0, MAX_BULLETS) : bullets
+          const isSelected =
+            selectedCard?.title === exp.role && selectedCard?.company === exp.company
+          const hasMore = exp.description.length > 1
 
           return (
             <li key={i}>
               <div
-                className="group relative grid gap-4 rounded-2xl p-4 transition-all duration-300 cursor-default"
+                className="group relative grid gap-4 rounded-2xl p-4 transition-all duration-300 cursor-pointer"
                 style={{
                   gridTemplateColumns: 'clamp(80px,15%,100px) 1fr',
                   backgroundColor: isSelected ? C.surface : 'transparent',
-                  boxShadow: isSelected ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)` : 'none',
+                  boxShadow: isSelected
+                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                    : 'none',
+                  outline: isSelected ? `1px solid ${C.borderHover}` : 'none',
                 }}
-                onMouseEnter={cardOn}
-                onMouseLeave={cardOff}
+                onClick={() => onSelect(cardItem)}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.backgroundColor = C.surface
+                  el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.backgroundColor = isSelected ? C.surface : 'transparent'
+                  el.style.boxShadow = isSelected
+                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                    : 'none'
+                }}
               >
                 {/* Period */}
                 <header className="z-10 mt-1">
-                  <p className="font-mono text-xs uppercase tracking-wider leading-snug" style={{ color: C.textMuted }}>
+                  <p
+                    className="font-mono text-xs uppercase tracking-wider leading-snug"
+                    style={{ color: C.textMuted }}
+                  >
                     {exp.period}
                   </p>
                 </header>
@@ -74,40 +80,71 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 transition-colors duration-200 group/link"
                       style={{ color: C.textPrimary }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLElement).style.color = C.accent)
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLElement).style.color = C.textPrimary)
+                      }
                     >
                       {exp.role} · {exp.company}
                       <ArrowUpRightIcon className="w-4 h-4 opacity-0 group-hover/link:opacity-100 transition-all duration-200" />
                     </a>
                   </h3>
 
-                  {/* Bullet points */}
-                  <ul className="space-y-1.5 mb-3">
-                    {visible.map((bullet, bi) => (
-                      <li key={bi} className="flex gap-2.5 text-xs leading-relaxed" style={{ color: C.textSecondary }}>
-                        <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: C.textMuted }} />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Description — clamped to 5 lines */}
+                  <div
+                    className="mb-2"
+                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden', position: 'relative' }}
+                  >
+                    <ul className="space-y-1.5">
+                      {exp.description.map((bullet, bi) => (
+                        <li
+                          key={bi}
+                          className="flex gap-2.5 text-xs leading-relaxed"
+                          style={{ color: C.textSecondary }}
+                        >
+                          <span
+                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
+                            style={{ backgroundColor: C.textMuted }}
+                          />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
                   {/* See more */}
                   {hasMore && (
                     <button
-                      onClick={() => onSelect(cardItem)}
-                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-colors duration-200"
+                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-all duration-200"
                       style={{ color: C.accent }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.75')}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onSelect(cardItem)
+                      }}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLElement).style.opacity = '0.7')
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLElement).style.opacity = '1')
+                      }
                     >
-                      See more
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      Tap for Details
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
                   )}
 
+                  {/* Tech tags */}
                   <ul className="flex flex-wrap gap-2">
                     {exp.tech.map((t) => (
                       <li key={t}>
@@ -135,6 +172,7 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 font-semibold text-sm transition-colors duration-200 group"
           style={{ color: C.textPrimary }}
+          onClick={(e) => e.stopPropagation()}
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
         >

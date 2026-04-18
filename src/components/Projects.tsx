@@ -3,7 +3,8 @@ import { ExternalLinkIcon, GitHubIcon, ArrowUpRightIcon } from './Icons'
 import { C } from '../palette'
 import type { CardItem } from '../App'
 
-const MAX_BULLETS = 2
+// ~5 lines of text-xs leading-relaxed
+const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ProjectsProps {
   selectedCard: CardItem | null
@@ -13,17 +14,6 @@ interface ProjectsProps {
 export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
   const featured = projects.filter((p) => p.featured)
   const others = projects.filter((p) => !p.featured)
-
-  const cardOn = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget as HTMLDivElement
-    el.style.backgroundColor = C.surface
-    el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-  }
-  const cardOff = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget as HTMLDivElement
-    el.style.backgroundColor = 'transparent'
-    el.style.boxShadow = 'none'
-  }
 
   const iconHoverOn = (e: React.MouseEvent<HTMLAnchorElement>) =>
     ((e.currentTarget as HTMLElement).style.color = C.accent)
@@ -51,21 +41,33 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
         {featured.map((project, i) => {
           const cardItem: CardItem = { ...project, type: 'project' }
           const isSelected = selectedCard?.title === project.title
-          const bullets = project.description
-          const hasMore = bullets.length > MAX_BULLETS
-          const visible = hasMore ? bullets.slice(0, MAX_BULLETS) : bullets
+          const hasMore = project.description.length > 1
 
           return (
             <li key={i}>
               <div
-                className="group relative grid gap-4 rounded-2xl p-4 transition-all duration-300 cursor-default"
+                className="group relative grid gap-4 rounded-2xl p-4 transition-all duration-300 cursor-pointer"
                 style={{
                   gridTemplateColumns: 'clamp(100px,18%,140px) 1fr',
                   backgroundColor: isSelected ? C.surface : 'transparent',
-                  boxShadow: isSelected ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)` : 'none',
+                  boxShadow: isSelected
+                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                    : 'none',
+                  outline: isSelected ? `1px solid ${C.borderHover}` : 'none',
                 }}
-                onMouseEnter={cardOn}
-                onMouseLeave={cardOff}
+                onClick={() => onSelect(cardItem)}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.backgroundColor = C.surface
+                  el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.backgroundColor = isSelected ? C.surface : 'transparent'
+                  el.style.boxShadow = isSelected
+                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
+                    : 'none'
+                }}
               >
                 {/* Thumbnail */}
                 <div className="z-10 mt-1">
@@ -90,40 +92,71 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 transition-colors duration-200 group/link"
                       style={{ color: C.textPrimary }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLElement).style.color = C.accent)
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLElement).style.color = C.textPrimary)
+                      }
                     >
                       {project.title}
                       <ArrowUpRightIcon className="w-3.5 h-3.5 opacity-0 group-hover/link:opacity-100 transition-all duration-200" />
                     </a>
                   </h3>
 
-                  {/* Bullet points */}
-                  <ul className="space-y-1.5 mb-2">
-                    {visible.map((bullet, bi) => (
-                      <li key={bi} className="flex gap-2.5 text-xs leading-relaxed" style={{ color: C.textSecondary }}>
-                        <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: C.textMuted }} />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Description — clamped to 5 lines */}
+                  <div
+                    className="mb-2"
+                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}
+                  >
+                    <ul className="space-y-1.5">
+                      {project.description.map((bullet, bi) => (
+                        <li
+                          key={bi}
+                          className="flex gap-2.5 text-xs leading-relaxed"
+                          style={{ color: C.textSecondary }}
+                        >
+                          <span
+                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
+                            style={{ backgroundColor: C.textMuted }}
+                          />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
                   {/* See more */}
                   {hasMore && (
                     <button
-                      onClick={() => onSelect(cardItem)}
                       className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-all duration-200"
                       style={{ color: C.accent }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.75')}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onSelect(cardItem)
+                      }}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLElement).style.opacity = '0.7')
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLElement).style.opacity = '1')
+                      }
                     >
-                      See more
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      Tap for Details
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
                   )}
 
+                  {/* Tech tags */}
                   <div className="flex flex-wrap gap-2 mb-2">
                     {project.tech.map((t) => (
                       <span
@@ -135,20 +168,36 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                       </span>
                     ))}
                   </div>
+
+                  {/* Links */}
                   <div className="flex items-center gap-3">
                     {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         aria-label={`${project.title} GitHub`}
-                        className="transition-colors duration-200" style={{ color: C.textMuted }}
-                        onMouseEnter={iconHoverOn} onMouseLeave={iconHoverOff}>
+                        className="transition-colors duration-200"
+                        style={{ color: C.textMuted }}
+                        onClick={(e) => e.stopPropagation()}
+                        onMouseEnter={iconHoverOn}
+                        onMouseLeave={iconHoverOff}
+                      >
                         <GitHubIcon className="w-4 h-4" />
                       </a>
                     )}
                     {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         aria-label={`${project.title} live`}
-                        className="transition-colors duration-200" style={{ color: C.textMuted }}
-                        onMouseEnter={iconHoverOn} onMouseLeave={iconHoverOff}>
+                        className="transition-colors duration-200"
+                        style={{ color: C.textMuted }}
+                        onClick={(e) => e.stopPropagation()}
+                        onMouseEnter={iconHoverOn}
+                        onMouseLeave={iconHoverOff}
+                      >
                         <ExternalLinkIcon className="w-4 h-4" />
                       </a>
                     )}
@@ -190,22 +239,43 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                 >
                   <div>
                     <div className="flex items-start justify-between mb-3">
-                      <svg className="w-8 h-8" fill="none" stroke={C.accent} strokeWidth="1.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                          d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2M3 17v2a2 2 0 0 0 2 2h2m10 0h2a2 2 0 0 0 2-2v-2" />
+                      <svg
+                        className="w-8 h-8"
+                        fill="none"
+                        stroke={C.accent}
+                        strokeWidth="1.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2M3 17v2a2 2 0 0 0 2 2h2m10 0h2a2 2 0 0 0 2-2v-2"
+                        />
                       </svg>
                       <div className="flex items-center gap-3">
                         {project.githubUrl && (
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                            className="transition-colors duration-200" style={{ color: C.textMuted }}
-                            onMouseEnter={iconHoverOn} onMouseLeave={iconHoverOff}>
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition-colors duration-200"
+                            style={{ color: C.textMuted }}
+                            onMouseEnter={iconHoverOn}
+                            onMouseLeave={iconHoverOff}
+                          >
                             <GitHubIcon className="w-4 h-4" />
                           </a>
                         )}
                         {project.liveUrl && (
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                            className="transition-colors duration-200" style={{ color: C.textMuted }}
-                            onMouseEnter={iconHoverOn} onMouseLeave={iconHoverOff}>
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition-colors duration-200"
+                            style={{ color: C.textMuted }}
+                            onMouseEnter={iconHoverOn}
+                            onMouseLeave={iconHoverOff}
+                          >
                             <ExternalLinkIcon className="w-4 h-4" />
                           </a>
                         )}
@@ -216,8 +286,15 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                     </h4>
                     <ul className="space-y-1">
                       {project.description.map((bullet, bi) => (
-                        <li key={bi} className="flex gap-2 text-xs leading-relaxed" style={{ color: C.textSecondary }}>
-                          <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: C.textMuted }} />
+                        <li
+                          key={bi}
+                          className="flex gap-2 text-xs leading-relaxed"
+                          style={{ color: C.textSecondary }}
+                        >
+                          <span
+                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
+                            style={{ backgroundColor: C.textMuted }}
+                          />
                           {bullet}
                         </li>
                       ))}

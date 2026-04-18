@@ -15,13 +15,13 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
 
   return (
     <aside
-      className="flex flex-col h-full py-24 pl-8 pr-4"
-      style={{ borderLeft: `1px solid ${C.border}` }}
+      className="h-full overflow-y-auto py-24 pl-8 pr-6"
+      style={{ borderLeft: `1px solid ${C.border}`, scrollbarWidth: 'none' as const }}
     >
       {/* Close button */}
       <button
         onClick={onClose}
-        className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest mb-10 transition-colors duration-200 self-start"
+        className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest mb-10 transition-colors duration-200"
         style={{ color: C.textMuted }}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
@@ -33,26 +33,18 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
         Close
       </button>
 
-      {/* Image / Period badge */}
-      {card.image ? (
+      {/* Project image */}
+      {card.image && (
         <div
-          className="w-full rounded-2xl overflow-hidden mb-8 shadow-2xl"
+          className="w-full rounded-2xl overflow-hidden mb-7 shadow-2xl"
           style={{ border: `1px solid ${C.border}`, aspectRatio: '16/9' }}
         >
-          <img
-            src={card.image}
-            alt={card.title}
-            className="w-full h-full object-cover"
-          />
+          <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
         </div>
-      ) : card.period ? (
-        <p className="font-mono text-xs uppercase tracking-wider mb-4" style={{ color: C.textMuted }}>
-          {card.period}
-        </p>
-      ) : null}
+      )}
 
-      {/* Period (for projects, show if exists) */}
-      {card.image && card.period && (
+      {/* Period badge */}
+      {card.period && (
         <p className="font-mono text-xs uppercase tracking-wider mb-3" style={{ color: C.textMuted }}>
           {card.period}
         </p>
@@ -63,25 +55,28 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
         {card.title}
       </h2>
 
-      {/* Company / subtitle */}
+      {/* Company */}
       {card.company && (
-        <p className="text-sm mb-6" style={{ color: C.accent }}>
+        <p className="text-sm mb-7" style={{ color: C.accent }}>
           {card.company}
         </p>
       )}
 
-      {/* Description bullets — all visible in panel */}
-      <ul className="space-y-3 mb-8 overflow-y-auto flex-1 pr-1" style={{ scrollbarWidth: 'none' as const }}>
+      {/* All description bullets */}
+      <ul className="space-y-4 mb-8">
         {card.description.map((bullet, i) => (
           <li key={i} className="flex gap-3 text-sm leading-relaxed" style={{ color: C.textSecondary }}>
-            <span className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: C.accent }} />
+            <span
+              className="mt-2 shrink-0 w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: C.accent }}
+            />
             {bullet}
           </li>
         ))}
       </ul>
 
       {/* Tech stack */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-7">
         {card.tech.map((t) => (
           <span
             key={t}
@@ -94,36 +89,50 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
       </div>
 
       {/* Links */}
-      <div className="flex items-center gap-4">
-        {card.githubUrl && (
-          <a
-            href={card.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-            style={{ color: C.textMuted }}
-            onMouseEnter={iconHoverOn}
-            onMouseLeave={iconHoverOff}
-          >
-            <GitHubIcon className="w-4 h-4" />
-            GitHub
-          </a>
-        )}
-        {card.liveUrl && (
-          <a
-            href={card.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-            style={{ color: C.textMuted }}
-            onMouseEnter={iconHoverOn}
-            onMouseLeave={iconHoverOff}
-          >
-            <ExternalLinkIcon className="w-4 h-4" />
-            Live Demo
-          </a>
-        )}
-      </div>
+      {(card.githubUrl || card.liveUrl) && (
+        <div className="flex items-center gap-5">
+          {card.githubUrl && (
+            <a
+              href={card.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
+              style={{ color: C.textMuted }}
+              onMouseEnter={iconHoverOn}
+              onMouseLeave={iconHoverOff}
+            >
+              <GitHubIcon className="w-4 h-4" />
+              GitHub
+            </a>
+          )}
+          {card.liveUrl && (
+            <a
+              href={card.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
+              style={{ color: C.textMuted }}
+              onMouseEnter={iconHoverOn}
+              onMouseLeave={iconHoverOff}
+            >
+              <ExternalLinkIcon className="w-4 h-4" />
+              Live Demo
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Keyboard hint */}
+      <p className="mt-10 text-xs" style={{ color: C.textMuted }}>
+        Press{' '}
+        <kbd
+          className="px-1.5 py-0.5 rounded text-xs font-mono"
+          style={{ border: `1px solid ${C.border}`, color: C.textMuted }}
+        >
+          Esc
+        </kbd>{' '}
+        to close
+      </p>
     </aside>
   )
 }

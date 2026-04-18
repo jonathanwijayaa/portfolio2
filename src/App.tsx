@@ -27,7 +27,9 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<string>('about')
   const [selectedCard, setSelectedCard] = useState<CardItem | null>(null)
 
+  // Section intersection observer — only active when panel is closed
   useEffect(() => {
+    if (selectedCard) return // skip while panel is open
     const observers: IntersectionObserver[] = []
     SECTIONS.forEach((id) => {
       const el = document.getElementById(id)
@@ -40,52 +42,87 @@ export default function App() {
       observers.push(observer)
     })
     return () => observers.forEach((o) => o.disconnect())
-  }, [])
+  }, [selectedCard])
 
-  // Close panel on Escape key
+  // Escape key closes panel
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSelectedCard(null) }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  const handleSelect = (card: CardItem) => {
+    setSelectedCard(card)
+    setActiveSection(card.type === 'experience' ? 'experience' : 'projects')
+  }
+
+  const handleClose = () => {
+    setSelectedCard(null)
+  }
+
   const isOpen = selectedCard !== null
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden" style={{ backgroundColor: C.bg, color: C.textSecondary }}>
+    <div className="relative min-h-screen" style={{ backgroundColor: C.bg, color: C.textSecondary }}>
       <FlashlightCursor />
 
-      <div className="mx-auto min-h-screen max-w-screen-xl px-6 md:px-12 lg:px-24">
-        {/* Three-column flex: sidebar | content | detail-panel */}
+      <div className="mx-auto max-w-screen-xl px-6 md:px-12 lg:px-24">
         <div className="lg:flex lg:gap-4">
 
-          {/* LEFT — Sidebar: collapses width when panel is open */}
-          <div
-            className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col overflow-hidden transition-all duration-500 ease-in-out"
-            style={{ width: isOpen ? '0%' : '45%', opacity: isOpen ? 0 : 1, pointerEvents: isOpen ? 'none' : 'auto' }}
-          >
+          {/* LEFT — Sidebar: ALWAYS fixed in place */}
+          <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[45%] lg:flex-col lg:shrink-0">
             <Sidebar activeSection={activeSection} />
           </div>
 
-          {/* CENTER — Scrollable content: shifts left when panel opens */}
-          <main
-            className="pt-24 pb-24 transition-all duration-500 ease-in-out"
-            style={{ width: isOpen ? '45%' : '55%' }}
-          >
-            <About />
-            <Experience selectedCard={selectedCard} onSelect={setSelectedCard} />
-            <Projects selectedCard={selectedCard} onSelect={setSelectedCard} />
-            <Footer />
-          </main>
-
-          {/* RIGHT — Detail panel: slides in from the right */}
+          {/* RIGHT — Switches between normal-scroll and split-pane modes */}
           <div
-            className="lg:sticky lg:top-0 lg:h-screen overflow-hidden transition-all duration-500 ease-in-out"
-            style={{ width: isOpen ? '55%' : '0%', opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }}
+            className="lg:flex-1 flex transition-all duration-500 ease-in-out"
+            style={isOpen ? {
+              position: 'sticky',
+              top: 0,
+              height: '100vh',
+              overflow: 'hidden',
+            } : {}}
           >
-            {selectedCard && (
-              <DetailPanel card={selectedCard} onClose={() => setSelectedCard(null)} />
-            )}
+            {/* MAIN — section content */}
+            <main
+              className="transition-all duration-500 ease-in-out pt-24 pb-24"
+              style={{
+                flex: isOpen ? '0 0 50%' : '1 1 100%',
+                overflowY: isOpen ? 'auto' : 'visible',
+                scrollbarWidth: 'none' as const,
+              }}
+            >
+              {isOpen ? (
+                /* Only show the relevant section when detail is open */
+                selectedCard.type === 'experience' ? (
+                  <Experience selectedCard={selectedCard} onSelect={handleSelect} />
+                ) : (
+                  <Projects selectedCard={selectedCard} onSelect={handleSelect} />
+                )
+              ) : (
+                <>
+                  <About />
+                  <Experience selectedCard={selectedCard} onSelect={handleSelect} />
+                  <Projects selectedCard={selectedCard} onSelect={handleSelect} />
+                  <Footer />
+                </>
+              )}
+            </main>
+
+            {/* DETAIL PANEL — slides in on the right */}
+            <div
+              className="transition-all duration-500 ease-in-out overflow-hidden"
+              style={{
+                flex: isOpen ? '0 0 50%' : '0 0 0%',
+                opacity: isOpen ? 1 : 0,
+                pointerEvents: isOpen ? 'auto' : 'none',
+              }}
+            >
+              {selectedCard && (
+                <DetailPanel card={selectedCard} onClose={handleClose} />
+              )}
+            </div>
           </div>
 
         </div>
