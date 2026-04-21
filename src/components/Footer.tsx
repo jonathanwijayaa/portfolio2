@@ -1,6 +1,8 @@
-import { C } from '../palette'
+import { useTheme } from '../ThemeContext'
 
 export default function Footer() {
+  const { C } = useTheme()
+
   return (
     <footer className="pb-12 text-xs" style={{ color: C.textMuted }}>
       <p className="leading-relaxed">

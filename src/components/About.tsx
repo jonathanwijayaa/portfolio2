@@ -1,6 +1,9 @@
-import { C } from '../palette'
+import { useTheme } from '../ThemeContext'
+import { ArrowRightIcon } from './Icons'
 
 export default function About() {
+  const { C } = useTheme()
+
   return (
     <section id="about" aria-label="About me" className="mb-28 scroll-mt-24">
       {/* Mobile section label */}
@@ -18,7 +21,7 @@ export default function About() {
       </div>
 
       <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: C.textSecondary }}>
-        {/* Photo — no tint overlay needed, the dark frame does the work */}
+        {/* Photo */}
         <div className="mb-2">
           <div
             className="relative w-48 h-56 rounded-2xl overflow-hidden shadow-2xl group"
@@ -29,7 +32,6 @@ export default function About() {
               alt="Jonathan Wijaya"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            {/* Very subtle warm vignette so edges feel connected to the dark bg */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
@@ -80,15 +82,7 @@ export default function About() {
             }}
           >
             View Full CV
-            <svg
-              className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            <ArrowRightIcon className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
         </div>
       </div>

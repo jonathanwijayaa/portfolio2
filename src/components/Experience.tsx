@@ -1,9 +1,8 @@
 import { experiences } from '../data'
-import { ArrowUpRightIcon } from './Icons'
-import { C } from '../palette'
+import { ArrowUpRightIcon, ChevronRightIcon, ArrowRightIcon } from './Icons'
+import { useTheme } from '../ThemeContext'
 import type { CardItem } from '../App'
 
-// ~5 lines of text-xs leading-relaxed (12px × 1.625 = 19.5px/line → 5 lines ≈ 97px)
 const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ExperienceProps {
@@ -12,6 +11,8 @@ interface ExperienceProps {
 }
 
 export default function Experience({ selectedCard, onSelect }: ExperienceProps) {
+  const { C } = useTheme()
+
   return (
     <section id="experience" aria-label="Work experience" className="mb-28 scroll-mt-24">
       {/* Mobile section label */}
@@ -93,16 +94,16 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
                     </a>
                   </h3>
 
-                  {/* Description — clamped to 5 lines */}
+                  {/* Description — clamped */}
                   <div
                     className="mb-2"
-                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden', position: 'relative' }}
+                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}
                   >
                     <ul className="space-y-1.5">
                       {exp.description.map((bullet, bi) => (
                         <li
                           key={bi}
-                          className="flex gap-2.5 text-xs leading-relaxed"
+                          className="flex gap-2.5 text-sm leading-relaxed"
                           style={{ color: C.textSecondary }}
                         >
                           <span
@@ -115,10 +116,10 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
                     </ul>
                   </div>
 
-                  {/* See more */}
+                  {/* Tap for details */}
                   {hasMore && (
                     <button
-                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-all duration-200"
+                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-opacity duration-200"
                       style={{ color: C.accent }}
                       onClick={(e) => {
                         e.stopPropagation()
@@ -132,15 +133,7 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
                       }
                     >
                       Tap for Details
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRightIcon className="w-3 h-3" />
                     </button>
                   )}
 
@@ -177,7 +170,7 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
         >
           View Full Résumé
-          <ArrowUpRightIcon className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <ArrowRightIcon className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
         </a>
       </div>
     </section>

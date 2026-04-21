@@ -1,6 +1,6 @@
 import type { CardItem } from '../App'
-import { C } from '../palette'
-import { ExternalLinkIcon, GitHubIcon } from './Icons'
+import { useTheme } from '../ThemeContext'
+import { ExternalLinkIcon, GitHubIcon, ArrowLeftIcon } from './Icons'
 
 interface DetailPanelProps {
   card: CardItem
@@ -8,10 +8,7 @@ interface DetailPanelProps {
 }
 
 export default function DetailPanel({ card, onClose }: DetailPanelProps) {
-  const iconHoverOn = (e: React.MouseEvent<HTMLAnchorElement>) =>
-    ((e.currentTarget as HTMLElement).style.color = C.accent)
-  const iconHoverOff = (e: React.MouseEvent<HTMLAnchorElement>) =>
-    ((e.currentTarget as HTMLElement).style.color = C.textMuted)
+  const { C } = useTheme()
 
   return (
     <aside
@@ -27,9 +24,7 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
         aria-label="Close detail panel"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
-        </svg>
+        <ArrowLeftIcon className="w-4 h-4" />
         Close
       </button>
 
@@ -98,8 +93,8 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
               style={{ color: C.textMuted }}
-              onMouseEnter={iconHoverOn}
-              onMouseLeave={iconHoverOff}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
             >
               <GitHubIcon className="w-4 h-4" />
               GitHub
@@ -112,8 +107,8 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
               style={{ color: C.textMuted }}
-              onMouseEnter={iconHoverOn}
-              onMouseLeave={iconHoverOff}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
             >
               <ExternalLinkIcon className="w-4 h-4" />
               Live Demo

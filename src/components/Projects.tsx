@@ -1,9 +1,8 @@
 import { projects } from '../data'
-import { ExternalLinkIcon, GitHubIcon, ArrowUpRightIcon } from './Icons'
-import { C } from '../palette'
+import { ExternalLinkIcon, GitHubIcon, ArrowUpRightIcon, ChevronRightIcon, FolderIcon } from './Icons'
+import { useTheme } from '../ThemeContext'
 import type { CardItem } from '../App'
 
-// ~5 lines of text-xs leading-relaxed
 const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ProjectsProps {
@@ -12,13 +11,10 @@ interface ProjectsProps {
 }
 
 export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
+  const { C } = useTheme()
+
   const featured = projects.filter((p) => p.featured)
   const others = projects.filter((p) => !p.featured)
-
-  const iconHoverOn = (e: React.MouseEvent<HTMLAnchorElement>) =>
-    ((e.currentTarget as HTMLElement).style.color = C.accent)
-  const iconHoverOff = (e: React.MouseEvent<HTMLAnchorElement>) =>
-    ((e.currentTarget as HTMLElement).style.color = C.textMuted)
 
   return (
     <section id="projects" aria-label="Projects" className="mb-28 scroll-mt-24">
@@ -72,7 +68,7 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                 {/* Thumbnail */}
                 <div className="z-10 mt-1">
                   <div
-                    className="w-full rounded-md overflow-hidden transition-all duration-300"
+                    className="w-full rounded-md overflow-hidden"
                     style={{ aspectRatio: '16/9', border: `1px solid ${C.border}` }}
                   >
                     <img
@@ -105,16 +101,13 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                     </a>
                   </h3>
 
-                  {/* Description — clamped to 5 lines */}
-                  <div
-                    className="mb-2"
-                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}
-                  >
+                  {/* Description — clamped */}
+                  <div className="mb-2" style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}>
                     <ul className="space-y-1.5">
                       {project.description.map((bullet, bi) => (
                         <li
                           key={bi}
-                          className="flex gap-2.5 text-xs leading-relaxed"
+                          className="flex gap-2.5 text-sm leading-relaxed"
                           style={{ color: C.textSecondary }}
                         >
                           <span
@@ -127,10 +120,10 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                     </ul>
                   </div>
 
-                  {/* See more */}
+                  {/* Tap for details */}
                   {hasMore && (
                     <button
-                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-all duration-200"
+                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-opacity duration-200"
                       style={{ color: C.accent }}
                       onClick={(e) => {
                         e.stopPropagation()
@@ -144,15 +137,7 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                       }
                     >
                       Tap for Details
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRightIcon className="w-3 h-3" />
                     </button>
                   )}
 
@@ -180,8 +165,12 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                         className="transition-colors duration-200"
                         style={{ color: C.textMuted }}
                         onClick={(e) => e.stopPropagation()}
-                        onMouseEnter={iconHoverOn}
-                        onMouseLeave={iconHoverOff}
+                        onMouseEnter={(e) =>
+                          ((e.currentTarget as HTMLElement).style.color = C.accent)
+                        }
+                        onMouseLeave={(e) =>
+                          ((e.currentTarget as HTMLElement).style.color = C.textMuted)
+                        }
                       >
                         <GitHubIcon className="w-4 h-4" />
                       </a>
@@ -195,8 +184,12 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                         className="transition-colors duration-200"
                         style={{ color: C.textMuted }}
                         onClick={(e) => e.stopPropagation()}
-                        onMouseEnter={iconHoverOn}
-                        onMouseLeave={iconHoverOff}
+                        onMouseEnter={(e) =>
+                          ((e.currentTarget as HTMLElement).style.color = C.accent)
+                        }
+                        onMouseLeave={(e) =>
+                          ((e.currentTarget as HTMLElement).style.color = C.textMuted)
+                        }
                       >
                         <ExternalLinkIcon className="w-4 h-4" />
                       </a>
@@ -239,19 +232,7 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                 >
                   <div>
                     <div className="flex items-start justify-between mb-3">
-                      <svg
-                        className="w-8 h-8"
-                        fill="none"
-                        stroke={C.accent}
-                        strokeWidth="1.5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2M3 17v2a2 2 0 0 0 2 2h2m10 0h2a2 2 0 0 0 2-2v-2"
-                        />
-                      </svg>
+                      <FolderIcon className="w-8 h-8" style={{ stroke: C.accent }} />
                       <div className="flex items-center gap-3">
                         {project.githubUrl && (
                           <a
@@ -260,8 +241,12 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                             rel="noopener noreferrer"
                             className="transition-colors duration-200"
                             style={{ color: C.textMuted }}
-                            onMouseEnter={iconHoverOn}
-                            onMouseLeave={iconHoverOff}
+                            onMouseEnter={(e) =>
+                              ((e.currentTarget as HTMLElement).style.color = C.accent)
+                            }
+                            onMouseLeave={(e) =>
+                              ((e.currentTarget as HTMLElement).style.color = C.textMuted)
+                            }
                           >
                             <GitHubIcon className="w-4 h-4" />
                           </a>
@@ -273,8 +258,12 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                             rel="noopener noreferrer"
                             className="transition-colors duration-200"
                             style={{ color: C.textMuted }}
-                            onMouseEnter={iconHoverOn}
-                            onMouseLeave={iconHoverOff}
+                            onMouseEnter={(e) =>
+                              ((e.currentTarget as HTMLElement).style.color = C.accent)
+                            }
+                            onMouseLeave={(e) =>
+                              ((e.currentTarget as HTMLElement).style.color = C.textMuted)
+                            }
                           >
                             <ExternalLinkIcon className="w-4 h-4" />
                           </a>
@@ -288,7 +277,7 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
                       {project.description.map((bullet, bi) => (
                         <li
                           key={bi}
-                          className="flex gap-2 text-xs leading-relaxed"
+                          className="flex gap-2 text-sm leading-relaxed"
                           style={{ color: C.textSecondary }}
                         >
                           <span

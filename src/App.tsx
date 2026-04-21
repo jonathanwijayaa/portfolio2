@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Sidebar from './components/Sidebar'
 import About from './components/About'
 import Experience from './components/Experience'
@@ -6,7 +6,7 @@ import Projects from './components/Projects'
 import Footer from './components/Footer'
 import FlashlightCursor from './components/FlashlightCursor'
 import DetailPanel from './components/DetailPanel'
-import { C } from './palette'
+import { useTheme } from './ThemeContext'
 
 const SECTIONS = ['about', 'experience', 'projects']
 
@@ -24,12 +24,15 @@ export type CardItem = {
 }
 
 export default function App() {
+  const { C } = useTheme()
   const [activeSection, setActiveSection] = useState<string>('about')
   const [selectedCard, setSelectedCard] = useState<CardItem | null>(null)
+  // Remembers which section was visible when the panel was opened
+  const lastSectionRef = useRef<string>('about')
 
   // Section intersection observer — only active when panel is closed
   useEffect(() => {
-    if (selectedCard) return // skip while panel is open
+    if (selectedCard) return
     const observers: IntersectionObserver[] = []
     SECTIONS.forEach((id) => {
       const el = document.getElementById(id)
@@ -46,20 +49,29 @@ export default function App() {
 
   // Escape key closes panel
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose() }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSelectedCard(null) }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   const handleSelect = (card: CardItem) => {
+    // Save where the user was before opening the panel
+    lastSectionRef.current = activeSection
     setSelectedCard(card)
     setActiveSection(card.type === 'experience' ? 'experience' : 'projects')
   }
 
-  const handleClose = () => {
-    setSelectedCard(null)
-  }
+  // When panel closes, scroll back to the section the user was on
+  useEffect(() => {
+    if (selectedCard !== null) return          // panel just opened, skip
+    const target = document.getElementById(lastSectionRef.current)
+    if (target) {
+      // Use 'instant' so the IntersectionObserver picks up the right position
+      target.scrollIntoView({ behavior: 'instant', block: 'start' })
+    }
+  }, [selectedCard])                           // runs whenever selectedCard changes
 
+  const handleClose = () => setSelectedCard(null)
   const isOpen = selectedCard !== null
 
   return (
@@ -101,7 +113,6 @@ export default function App() {
               }}
             >
               {isOpen ? (
-                /* Only show the relevant section when detail is open */
                 selectedCard.type === 'experience' ? (
                   <Experience selectedCard={selectedCard} onSelect={handleSelect} />
                 ) : (
