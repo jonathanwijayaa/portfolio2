@@ -33,7 +33,7 @@ export const socialLinks = [
 
 export const experiences = [
   {
-    period: 'Aug 2025 — Present',
+    period: 'Aug 2025 — Dec 2025',
     role: 'Web Developer Intern',
     company: 'Studyfirst',
     companyUrl: '#',
