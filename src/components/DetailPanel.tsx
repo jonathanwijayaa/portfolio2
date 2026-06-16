@@ -12,8 +12,8 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
 
   return (
     <aside
-      className="h-full overflow-y-auto py-24 pl-8 pr-6"
-      style={{ borderLeft: `1px solid ${C.border}`, scrollbarWidth: 'none' as const }}
+      className="h-full overflow-y-auto py-16 px-6 lg:py-24 lg:pl-8 lg:pr-6 lg:border-l"
+      style={{ borderColor: C.border, scrollbarWidth: 'none' as const }}
     >
       {/* Close button */}
       <button

@@ -14,10 +14,10 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
   const { C } = useTheme()
 
   return (
-    <section id="experience" aria-label="Work experience" className="mb-28 scroll-mt-24">
+    <section id="experience" aria-label="Work experience" className="mb-20 scroll-mt-28 lg:mb-28 lg:scroll-mt-24">
       {/* Mobile section label */}
       <div
-        className="sticky top-0 z-20 -mx-6 mb-8 px-6 py-5 lg:hidden"
+        className="sticky top-14 z-20 -mx-6 mb-8 px-6 py-4 lg:hidden"
         style={{
           backdropFilter: 'blur(14px)',
           backgroundColor: `${C.bg}cc`,
@@ -39,7 +39,7 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
           return (
             <li key={i}>
               <div
-                className="group relative grid gap-4 rounded-2xl p-4 transition-all duration-300 cursor-pointer"
+                className="group relative flex flex-col gap-3 rounded-2xl p-4 transition-all duration-300 cursor-pointer sm:grid sm:gap-4"
                 style={{
                   gridTemplateColumns: 'clamp(80px,15%,100px) 1fr',
                   backgroundColor: isSelected ? C.surface : 'transparent',

@@ -5,10 +5,10 @@ export default function About() {
   const { C } = useTheme()
 
   return (
-    <section id="about" aria-label="About me" className="mb-28 scroll-mt-24">
+    <section id="about" aria-label="About me" className="mb-20 scroll-mt-28 lg:mb-28 lg:scroll-mt-24">
       {/* Mobile section label */}
       <div
-        className="sticky top-0 z-20 -mx-6 mb-8 px-6 py-5 lg:hidden"
+        className="sticky top-14 z-20 -mx-6 mb-8 px-6 py-4 lg:hidden"
         style={{
           backdropFilter: 'blur(14px)',
           backgroundColor: `${C.bg}cc`,
