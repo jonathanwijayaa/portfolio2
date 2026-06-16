@@ -131,10 +131,10 @@ export default function App() {
             <div
               className={[
                 'transition-all duration-500 ease-in-out overflow-hidden',
-                isOpen && 'flex-1 lg:flex-none',
+                isOpen && 'w-full flex-[0_0_100%] lg:w-auto lg:flex-[0_0_50%]',
               ].filter(Boolean).join(' ')}
               style={{
-                flex: isOpen ? '0 0 50%' : '0 0 0%',
+                flex: isOpen ? undefined : '0 0 0%',
                 opacity: isOpen ? 1 : 0,
                 pointerEvents: isOpen ? 'auto' : 'none',
               }}
