@@ -64,7 +64,7 @@ export default function About() {
         {/* CV Link */}
         <div className="pt-2">
           <a
-            href="/Jonathan Wijaya-resume (1).pdf"
+            href="/Jonathan Wijaya_resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-mono text-sm rounded px-4 py-2 transition-all duration-200 group"
