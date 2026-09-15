@@ -87,3 +87,31 @@ html.disable-transitions,
 html.disable-transitions * {
   transition: none !important;
 }
+@keyframes sharpSparkle {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  75% {
+    opacity: 0.7;
+  }
+}
+
+.animate-sparkle-1 {
+  animation: sharpSparkle 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: opacity, transform;
+}
+
+.animate-sparkle-2 {
+  animation: sharpSparkle 3.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: -1.2s;
+  will-change: opacity, transform;
+}

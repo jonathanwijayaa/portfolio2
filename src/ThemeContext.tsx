@@ -38,9 +38,13 @@ interface ThemeCtx {
 const ThemeContext = createContext<ThemeCtx | null>(null)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<Theme>(() =>
-    localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
-  )
+  const [mode, setMode] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      return savedTheme
+    }
+    return 'dark'
+  })
 
   const C = mode === 'dark' ? dark : light
 

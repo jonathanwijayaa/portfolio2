@@ -71,10 +71,6 @@ function Experience({ selectedCard, onSelect }: ExperienceProps) {
           )
         })}
       </div>
-
-      <div className="mt-8 pl-1">
-        <ResumeButton />
-      </div>
     </section>
   )
 }
