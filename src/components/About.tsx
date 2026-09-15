@@ -1,27 +1,52 @@
 import { memo } from 'react'
 import { useTheme } from '../ThemeContext'
-import { ArrowRightIcon } from './Icons'
+import SectionHeader from './ui/SectionHeader'
+import SocialLinks from './ui/SocialLinks'
+import ResumeButton from './ui/ResumeButton'
 
 function About() {
   const { C } = useTheme()
 
   return (
-    <section id="about" aria-label="About me" className="mb-20 scroll-mt-28 lg:mb-28 lg:scroll-mt-24">
-      {/* Mobile section label */}
-      <div
-        className="sticky top-14 z-20 -mx-6 mb-8 px-6 py-4 lg:hidden"
-        style={{
-          backdropFilter: 'blur(14px)',
-          backgroundColor: `${C.bg}cc`,
-          borderBottom: `1px solid ${C.border}`,
-        }}
-      >
-        <h2 className="text-xs font-bold uppercase tracking-widest" style={{ color: C.textPrimary }}>
-          About
+    <section
+      id="about"
+      aria-label="About me"
+      className="mb-20 scroll-mt-20 lg:mb-28 lg:scroll-mt-24"
+    >
+      <div className="lg:hidden mb-8 flex flex-col items-center text-center pt-2">
+        <div className="relative w-24 h-24 mb-4 group">
+          <img
+            src="/assets/image/foto2.jpg"
+            alt="Jonathan Wijaya"
+            className="w-full h-full object-cover rounded-3xl shadow-xl transition-transform duration-300 group-hover:scale-105"
+            style={{ border: `2px solid ${C.borderHover}` }}
+          />
+          <span
+            className="absolute -bottom-2 -right-2 text-xs font-mono px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-md backdrop-blur-md"
+            style={{
+              backgroundColor: C.surface,
+              color: C.accent,
+              border: `1px solid ${C.borderHover}`,
+            }}
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            Ready to code
+          </span>
+        </div>
+
+        <h1 className="text-3xl font-bold tracking-tight mb-1" style={{ color: C.textPrimary }}>
+          Jonathan Wijaya
+        </h1>
+        <h2 className="text-sm font-mono font-semibold uppercase tracking-wider mb-4" style={{ color: C.accent }}>
+          Full-stack Web &amp; Android Developer
         </h2>
+
+        <SocialLinks className="mb-6" />
       </div>
 
-      <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: C.textSecondary }}>
+      <SectionHeader title="About" sticky />
+
+      <div className="flex flex-col gap-5 text-base lg:text-lg leading-relaxed" style={{ color: C.textSecondary }}>
         <p>
           An{' '}
           <span style={{ color: C.textPrimary, fontWeight: 600 }}>Informatics graduate</span>{' '}
@@ -43,33 +68,12 @@ function About() {
           collaborations in web development, Android engineering, or UI/UX design.
         </p>
 
-        {/* CV Link */}
         <div className="pt-2">
-          <a
-            href="/Jonathan Wijaya-resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-sm rounded-xl px-4 py-2.5 transition-all duration-200 group"
-            style={{
-              color: C.accent,
-              backgroundColor: C.accentDim,
-              border: `1px solid ${C.borderHover}`,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = C.surface
-              e.currentTarget.style.borderColor = C.accent
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = C.accentDim
-              e.currentTarget.style.borderColor = C.borderHover
-            }}
-          >
-            View Full CV
-            <ArrowRightIcon className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          <ResumeButton label="View Full CV" />
         </div>
       </div>
     </section>
   )
 }
+
 export default memo(About)

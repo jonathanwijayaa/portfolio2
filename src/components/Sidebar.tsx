@@ -1,14 +1,8 @@
 import { useState } from 'react'
 import { useTheme } from '../ThemeContext'
-import { GitHubIcon, LinkedInIcon, InstagramIcon, MailIcon, SunIcon, MoonIcon } from './Icons'
-import { navLinks, socialLinks } from '../data'
-
-const iconMap: Record<string, React.FC<{ className?: string }>> = {
-  github: GitHubIcon,
-  linkedin: LinkedInIcon,
-  instagram: InstagramIcon,
-  mail: MailIcon,
-}
+import { SunIcon, MoonIcon } from './Icons'
+import { navLinks } from '../data'
+import SocialLinks from './ui/SocialLinks'
 
 interface SidebarProps {
   activeSection: string
@@ -38,7 +32,7 @@ export default function Sidebar({ activeSection }: SidebarProps) {
             }}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Ready to code ✨
+            Ready to code
           </span>
         </div>
 
@@ -108,32 +102,7 @@ export default function Sidebar({ activeSection }: SidebarProps) {
           <span>{mode === 'dark' ? 'Light' : 'Dark'} Mode</span>
         </button>
 
-        <div className="flex items-center gap-4">
-          {socialLinks.map(({ label, href, icon }) => {
-            const Icon = iconMap[icon] || GitHubIcon
-            return (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                target={href.startsWith('mailto') || href.startsWith('https://wa.me') ? undefined : '_blank'}
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl transition-all duration-200 group"
-                style={{ backgroundColor: C.surface, border: `1px solid ${C.border}` }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = C.accent
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = C.border
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}
-              >
-                <Icon className="w-4 h-4 transition-colors duration-200" style={{ color: C.textSecondary }} />
-              </a>
-            )
-          })}
-        </div>
+        <SocialLinks className="gap-4 [&_a]:p-2" />
       </div>
     </aside>
   )

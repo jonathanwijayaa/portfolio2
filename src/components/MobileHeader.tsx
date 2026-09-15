@@ -1,14 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from '../ThemeContext'
-import { GitHubIcon, LinkedInIcon, InstagramIcon, MailIcon, SunIcon, MoonIcon, MenuIcon, XIcon } from './Icons'
+import { SunIcon, MoonIcon, MenuIcon, XIcon } from './Icons'
 import { navLinks, socialLinks } from '../data'
-
-const iconMap: Record<string, React.FC<{ className?: string }>> = {
-  github: GitHubIcon,
-  linkedin: LinkedInIcon,
-  instagram: InstagramIcon,
-  mail: MailIcon,
-}
+import { socialIconMap } from './ui/socialIconMap'
 
 interface MobileHeaderProps {
   activeSection: string
@@ -144,7 +138,8 @@ export default function MobileHeader({ activeSection, detailOpen = false }: Mobi
 
           <div className="flex items-center gap-5">
             {socialLinks.map(({ label, href, icon }) => {
-              const Icon = iconMap[icon]
+              const Icon = socialIconMap[icon]
+              if (!Icon) return null
               return (
                 <a
                   key={label}

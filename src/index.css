@@ -3,69 +3,87 @@
 @theme {
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'Poppins', monospace;
+  
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-high: var(--surface-high);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-glow: var(--accent-glow);
 }
 
 @layer base {
+  :root[data-theme="dark"] {
+    --bg: #020617;
+    --surface: #0f172a;
+    --surface-high: #1e293b;
+    --border: rgba(30, 41, 59, 0.6);
+    --border-hover: rgba(51, 65, 85, 0.8);
+    --text-primary: #bfdbfe;
+    --text-secondary: #dbeafe;
+    --text-muted: #64748b;
+    --accent: #93c5fd;
+    --accent-dim: rgba(147, 197, 253, 0.15);
+    --accent-glow: rgba(147, 197, 253, 0.08);
+  }
+
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #f8fafc;
+    --surface-high: #f1f5f9;
+    --border: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --text-primary: #172554;
+    --text-secondary: #0f172a;
+    --text-muted: #64748b;
+    --accent: #1e3a8a;
+    --accent-dim: rgba(30, 58, 138, 0.10);
+    --accent-glow: rgba(30, 58, 138, 0.05);
+  }
+
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
   }
 
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  /* ── Dark mode (default) ─────────────────────── */
-  html,
-  html[data-theme="dark"] {
-    scrollbar-color: #334155 #0f172a;
-  }
-
-  html[data-theme="dark"]::-webkit-scrollbar { width: 6px; }
-  html[data-theme="dark"]::-webkit-scrollbar-track { background: #0f172a; }
-  html[data-theme="dark"]::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-  html[data-theme="dark"]::-webkit-scrollbar-thumb:hover { background: #64748b; }
-
-  /* ── Light mode ──────────────────────────────── */
-  html[data-theme="light"] {
-    scrollbar-color: #cbd5e1 #f8fafc;
-  }
-
-  html[data-theme="light"]::-webkit-scrollbar { width: 6px; }
-  html[data-theme="light"]::-webkit-scrollbar-track { background: #f8fafc; }
-  html[data-theme="light"]::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-  html[data-theme="light"]::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
   body {
-    background-color: #020617;
-    color: #dbeafe;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text-secondary);
+    font-family: var(--font-family-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-
-  /* Selection highlight disesuaikan dengan tema biru */
-  html[data-theme="dark"] ::selection {
-    background-color: rgba(147, 197, 253, 0.25);
-    color: #bfdbfe;
-  }
-
-  html[data-theme="light"] ::selection {
-    background-color: rgba(30, 58, 138, 0.15);
-    color: #172554;
-  }
 }
 
-/* ── Utility Classes for High Performance ─────────────── */
-.will-change-transform {
+/* Marquee Animations */
+@keyframes scrollMarquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scrollMarquee 25s linear infinite;
   will-change: transform;
 }
+.animate-marquee-track:hover {
+  animation-play-state: paused;
+}
 
-/* Mematikan lag flicker & repaint berlebih saat toggle theme */
+.mask-edges {
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* Disable transitions temporary during theme toggle */
 html.disable-transitions,
-html.disable-transitions *,
-html.disable-transitions *::before,
-html.disable-transitions *::after {
+html.disable-transitions * {
   transition: none !important;
 }
