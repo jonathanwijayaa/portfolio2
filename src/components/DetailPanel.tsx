@@ -2,13 +2,14 @@ import type { CardItem } from '../types'
 import { useTheme } from '../ThemeContext'
 import { ExternalLinkIcon, GitHubIcon, ArrowLeftIcon } from './Icons'
 import TechBadge from './ui/TechBadge'
+import { memo } from 'react'
 
 interface DetailPanelProps {
   card: CardItem
   onClose: () => void
 }
 
-export default function DetailPanel({ card, onClose }: DetailPanelProps) {
+function DetailPanel({ card, onClose }: DetailPanelProps) {
   const { C } = useTheme()
 
   return (
@@ -99,3 +100,4 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
     </aside>
   )
 }
+export default memo(DetailPanel)
