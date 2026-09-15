@@ -1,16 +1,15 @@
+import { memo } from 'react'
 import { experiences } from '../data'
 import { ArrowUpRightIcon, ChevronRightIcon, ArrowRightIcon } from './Icons'
 import { useTheme } from '../ThemeContext'
 import type { CardItem } from '../App'
-
-const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ExperienceProps {
   selectedCard: CardItem | null
   onSelect: (card: CardItem) => void
 }
 
-export default function Experience({ selectedCard, onSelect }: ExperienceProps) {
+function Experience({ selectedCard, onSelect }: ExperienceProps) {
   const { C } = useTheme()
 
   return (
@@ -29,145 +28,118 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
         </h2>
       </div>
 
-      <ol className="space-y-1">
+      <div className="flex flex-col gap-4">
         {experiences.map((exp, i) => {
           const cardItem: CardItem = { ...exp, title: exp.role, type: 'experience' }
           const isSelected =
             selectedCard?.title === exp.role && selectedCard?.company === exp.company
-          const hasMore = exp.description.length > 1
 
           return (
-            <li key={i}>
-              <div
-                className="group relative flex flex-col gap-3 rounded-2xl p-4 transition-all duration-300 cursor-pointer sm:grid sm:gap-4"
-                style={{
-                  gridTemplateColumns: 'clamp(80px,15%,100px) 1fr',
-                  backgroundColor: isSelected ? C.surface : 'transparent',
-                  boxShadow: isSelected
-                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                    : 'none',
-                  outline: isSelected ? `1px solid ${C.borderHover}` : 'none',
-                }}
-                onClick={() => onSelect(cardItem)}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.backgroundColor = C.surface
-                  el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.backgroundColor = isSelected ? C.surface : 'transparent'
-                  el.style.boxShadow = isSelected
-                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                    : 'none'
-                }}
-              >
-                {/* Period */}
-                <header className="z-10 mt-1">
-                  <p
-                    className="font-mono text-xs uppercase tracking-wider leading-snug"
-                    style={{ color: C.textMuted }}
-                  >
-                    {exp.period}
-                  </p>
-                </header>
-
-                {/* Content */}
-                <div className="z-10">
-                  <h3 className="font-medium mb-2 leading-snug text-sm">
+            <div
+              key={i}
+              className="group relative flex flex-col justify-between rounded-3xl p-5 transition-all duration-300 cursor-pointer overflow-hidden"
+              style={{
+                backgroundColor: C.surface,
+                border: `1px solid ${isSelected ? C.accent : C.border}`,
+                boxShadow: isSelected
+                  ? `0 8px 30px ${C.accentGlow}`
+                  : '0 4px 12px rgba(0,0,0,0.1)',
+              }}
+              onClick={() => onSelect(cardItem)}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLDivElement
+                el.style.borderColor = C.accent
+                el.style.transform = 'translateY(-2px)'
+                el.style.boxShadow = `0 8px 24px ${C.accentGlow}`
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLDivElement
+                el.style.borderColor = isSelected ? C.accent : C.border
+                el.style.transform = 'translateY(0)'
+                el.style.boxShadow = isSelected
+                  ? `0 8px 30px ${C.accentGlow}`
+                  : '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <div>
+                {/* Header: Period & Role */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                  <h3 className="font-bold text-base leading-snug">
                     <a
                       href={exp.companyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 transition-colors duration-200 group/link"
+                      className="inline-flex items-center gap-1.5 transition-colors duration-200 group/link"
                       style={{ color: C.textPrimary }}
                       onClick={(e) => e.stopPropagation()}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = C.accent)
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = C.textPrimary)
-                      }
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
                     >
                       {exp.role} · {exp.company}
                       <ArrowUpRightIcon className="w-4 h-4 opacity-0 group-hover/link:opacity-100 transition-all duration-200" />
                     </a>
                   </h3>
+                  <span className="font-mono text-xs uppercase tracking-wider shrink-0" style={{ color: C.textMuted }}>
+                    {exp.period}
+                  </span>
+                </div>
 
-                  {/* Description — clamped */}
-                  <div
-                    className="mb-2"
-                    style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}
-                  >
-                    <ul className="space-y-1.5">
-                      {exp.description.map((bullet, bi) => (
-                        <li
-                          key={bi}
-                          className="flex gap-2.5 text-sm leading-relaxed"
-                          style={{ color: C.textSecondary }}
-                        >
-                          <span
-                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
-                            style={{ backgroundColor: C.textMuted }}
-                          />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                {/* Highlight Point (Hanya menampilkan 1 poin ringkas di kartu depan) */}
+                {exp.description.length > 0 && (
+                  <p className="text-sm leading-relaxed mb-4 line-clamp-2" style={{ color: C.textSecondary }}>
+                    {exp.description[0]}
+                  </p>
+                )}
 
-                  {/* Tap for details */}
-                  {hasMore && (
-                    <button
-                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-opacity duration-200"
-                      style={{ color: C.accent }}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onSelect(cardItem)
-                      }}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.opacity = '0.7')
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.opacity = '1')
-                      }
+                {/* Tech Stack Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {exp.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="inline-flex items-center rounded-xl px-2.5 py-0.5 text-[11px] font-medium font-mono"
+                      style={{ backgroundColor: C.accentDim, color: C.accent }}
                     >
-                      Tap for Details
-                      <ChevronRightIcon className="w-3 h-3" />
-                    </button>
-                  )}
-
-                  {/* Tech tags */}
-                  <ul className="flex flex-wrap gap-2">
-                    {exp.tech.map((t) => (
-                      <li key={t}>
-                        <span
-                          className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium font-mono"
-                          style={{ backgroundColor: C.accentDim, color: C.accent }}
-                        >
-                          {t}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </li>
+
+              {/* Card Footer */}
+              <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: C.border }}>
+                <span
+                  className="inline-flex items-center gap-1 text-xs font-mono font-semibold transition-colors duration-200"
+                  style={{ color: C.accent }}
+                >
+                  Tap for Details
+                  <ChevronRightIcon className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                </span>
+              </div>
+            </div>
           )
         })}
-      </ol>
+      </div>
 
-      {/* Resume link */}
-      <div className="mt-8 pl-4">
+      {/* Resume Link */}
+      <div className="mt-8 pl-1">
         <a
-          href="/Jonathan Wijaya-resume (1).pdf"
+          href="/Jonathan Wijaya-resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-semibold text-sm transition-colors duration-200 group"
-          style={{ color: C.textPrimary }}
-          onClick={(e) => e.stopPropagation()}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textPrimary)}
+          className="inline-flex items-center gap-2 font-mono text-sm rounded-xl px-4 py-2.5 transition-all duration-200 group"
+          style={{
+            color: C.accent,
+            backgroundColor: C.accentDim,
+            border: `1px solid ${C.borderHover}`,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = C.surface
+            e.currentTarget.style.borderColor = C.accent
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = C.accentDim
+            e.currentTarget.style.borderColor = C.borderHover
+          }}
         >
           View Full Résumé
           <ArrowRightIcon className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -176,3 +148,4 @@ export default function Experience({ selectedCard, onSelect }: ExperienceProps) 
     </section>
   )
 }
+export default memo(Experience)

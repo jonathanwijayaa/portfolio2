@@ -4,6 +4,7 @@
 
 export const navLinks = [
   { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
 ]
@@ -33,40 +34,53 @@ export const socialLinks = [
 
 export const experiences = [
   {
-    period: 'Aug 2025 — Dec 2025',
+    period: 'Sep 2025 — Dec 2025',
     role: 'Web Developer Intern',
     company: 'Studyfirst',
     companyUrl: '#',
     description: [
-      'Developed a React-based LMS using TypeScript and Tailwind CSS, integrating Supabase for role-based authentication and database management.',
-      'Built a WordPress landing page for IELTS Simulation, collaborating with UI/UX and Product Management teams to translate designs into functional, interactive layouts.',
-      'Maintained company website via WordPress, managing 17+ SEO articles and recruitment updates in coordination with Marketing and HR teams.',
+      'Engineered a multi-role LMS (Student, Course Manager, Administrator) using React.js, TypeScript, and Tailwind CSS; architected backend services with Supabase including database schema design, Row Level Security (RLS), and role-based authentication.',
+      'Translated Figma wireframes into a pixel-accurate WordPress IELTS landing page under Agile sprint cadence, collaborating cross-functionally with Product and Design teams.',
+      'Managed 17+ SEO-optimised articles in coordination with Marketing and HR, contributing to measurable improvements in organic search visibility.',
     ],
-    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'WordPress'],
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Supabase', 'WordPress'],
   },
   {
-    period: 'Feb 2024 — Present',
+    period: 'Feb 2024 — Jun 2026',
     role: 'Part-Time Assistant Lecturer',
     company: 'Universitas Kristen Duta Wacana',
     companyUrl: 'https://www.ukdw.ac.id/',
     description: [
-      'Facilitated lab sessions for 4 core courses including Database Systems, Computer Networks, Web Development, and Software Quality Assurance, for classes of up to 40 students.',
-      'Developed 20+ practical lab modules simulating real-world scenarios, achieving a 90% student project success rate.',
-      'Evaluated 700+ technical submissions, providing individualized feedback on coding and system configurations.',
+      'Facilitated lab sessions for core courses including Software Quality Assurance, Database Systems, Computer Networks, and Web Development for classes of up to 40 students.',
+      'Designed 20+ practical lab modules simulating real-world engineering scenarios, achieving a 90% student project success rate through hands-on guidance.',
+      'Evaluated 700+ technical submissions, delivering detailed individualized feedback on code quality, system configurations, and debugging strategies.',
     ],
-    tech: ['Database Systems', 'Computer Networks', 'Web Development', 'SQL'],
+    tech: ['Web Development', 'Database Systems', 'Software Quality Assurance', 'SQL'],
   },
 ]
 
 export const projects = [
   {
+    title: 'Chatbot Kafe Jogja',
+    description: [
+      'Built an AI-powered café recommendation chatbot for Yogyakarta using React.js, TypeScript, and Gemini API, featuring a conversational UI deployed on Vercel.',
+      'Implemented custom content guardrails, including topic restriction and profanity filtering, to ensure safe and highly context-relevant responses.',
+      'Isolated and tracked prompt-engineering edge cases during manual testing to strictly maintain model accuracy and response tone.',
+    ],
+    tech: ['React.js', 'TypeScript', 'Gemini API', 'Tailwind CSS', 'Vercel'],
+    liveUrl: null, // Tambahkan URL jika sudah ada deployment live
+    githubUrl: 'https://github.com/jonathanwijayaa',
+    image: '/assets/image/chatbot-kafe.png', // Pastikan mengganti dengan path gambar yang sesuai
+    featured: true,
+  },
+  {
     title: 'Aplikasi Data Relawan Kota Yogyakarta',
     description: [
-      'Designed high-fidelity prototypes in Figma using user-centered principles to ensure an accessible experience for managing large-scale volunteer datasets.',
-      'Developed the frontend with React.js, TypeScript, and Tailwind CSS, translating complex data requirements into a responsive, high-performance, and maintainable codebase.',
-      'Collaborated directly with BAPPEDA stakeholders to identify user needs and implement secure data management features, ensuring the platform met official government standards.',
+      'Led the frontend development of a civic tech volunteer platform using React.js, TypeScript, Tailwind CSS, Axios, and TanStack Query for efficient data fetching and caching.',
+      'Designed high-fidelity Figma prototypes applying user-centered design principles; implemented secure data management features meeting official government compliance standards.',
+      'Validated system quality through structured usability testing, achieving a 98.72% Task Completion Rate and positive UEQ scores across Super Admin, OPD, and Volunteer groups.',
     ],
-    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Figma', 'Supabase'],
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Axios', 'TanStack Query', 'Figma'],
     liveUrl: null,
     githubUrl: null,
     image: '/assets/image/bappeda.png',
@@ -75,9 +89,9 @@ export const projects = [
   {
     title: 'LMS Studyfirst',
     description: [
-      'Developed a responsive and centralized LMS frontend using React.js, TypeScript, and Tailwind CSS, providing a seamless user interface for Students, Course Managers, and Administrators.',
-      'Integrated Supabase for secure user authentication and real-time database management, ensuring robust role-based access control and efficient data handling across the platform.',
-      'Implemented core business features including course management modules and student progress tracking, translating business requirements into functional, high-performance web components.',
+      'Engineered a centralized multi-role LMS frontend (Student, Course Manager, Admin) using React.js, TypeScript, and Tailwind CSS.',
+      'Integrated Supabase for database management and Row Level Security (RLS) policies, securing access control across 3 user tiers.',
+      'Implemented course management modules and student progress tracking, translating complex business logic into high-performance web components.',
     ],
     tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     liveUrl: null,
@@ -86,52 +100,28 @@ export const projects = [
     featured: true,
   },
   {
-    title: 'AI News Portal',
+    title: 'Sealnote',
     description: [
-      'Developed a dynamic news aggregator platform using React.js and TypeScript, providing real-time updates on AI trends by integrating third-party News APIs.',
-      'Architected a responsive and high-performance UI with Tailwind CSS ensuring optimal readability and seamless user navigation across various device screen sizes.',
-      'Optimized data fetching and state management to deliver a fast-loading news feed, showcasing the ability to transform complex external data into an intuitive and clean user interface.',
+      'Built a privacy-first Android note-taking app in Kotlin and Jetpack Compose featuring a "Stealth Calculator" disguise UI and Material Design 3.',
+      'Engineered multi-layered security with biometric authentication (Fingerprint/Face ID) and Google Sign-In (OAuth 2.0 / SSO) with token-based session handling.',
+      'Integrated Firebase Auth, Realtime Database, and Storage for encrypted data synchronization and media management.',
     ],
-    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'News API', 'Vercel'],
-    liveUrl: 'https://ai-news-portal-nine.vercel.app/',
-    githubUrl: null,
-    image: '/assets/image/ainewsportal.png',
-    featured: true,
-  },
-  {
-    title: 'SealNote',
-    description: [
-      'Conceptualized and designed a "Stealth Mode" UI/UX featuring a functional calculator interface that disguises the secure note-taking system to prioritize user privacy.',
-      'Developed the mobile application using Kotlin and Jetpack Compose, implementing Material Design 3 (Material You) principles to create a modern, dynamic, and responsive user interface.',
-      'Engineered a multi-layered security architecture featuring biometric authentication (Fingerprint/Face ID) for "Secret Notes," with Firebase integration for secure data synchronization.',
-    ],
-    tech: ['Kotlin', 'Jetpack Compose', 'Firebase', 'Material Design 3'],
+    tech: ['Kotlin', 'Jetpack Compose', 'Firebase', 'OAuth 2.0', 'Material Design 3'],
     liveUrl: null,
     githubUrl: 'https://github.com/jonathanwijayaa/SealNote',
     image: '/assets/image/sealnote.png',
     featured: true,
   },
   {
-    title: 'Office of Dicky Huang',
+    title: 'AI News Portal',
     description: [
-      'A professional company profile website with polished design, smooth animations, and mobile-first responsive layout.',
+      'Developed a dynamic news aggregator platform using React.js and TypeScript, providing real-time updates on AI trends by integrating third-party News APIs.',
+      'Architected a responsive UI with Tailwind CSS and optimized data fetching to deliver a fast-loading news feed.',
     ],
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    liveUrl: 'https://jonathanwijayaa.github.io/OfficeofDickyHuang/',
+    tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'News API', 'Vercel'],
+    liveUrl: 'https://ai-news-portal-nine.vercel.app/',
     githubUrl: null,
-    image: '/assets/image/LogoDickyHuang.jpg',
-    featured: false,
-  },
-  {
-    title: 'Fishbot Go',
-    description: [
-      'A fun 2D arcade game developed collaboratively featuring engaging gameplay mechanics and pixel art visuals published on itch.io.',
-    ],
-    tech: ['Game Dev', 'Unity', 'Collaborative'],
-    liveUrl: 'https://nicholandn22.itch.io/fishbot',
-    githubUrl: null,
-    image: '/assets/image/fishbot.png',
+    image: '/assets/image/ainewsportal.png',
     featured: false,
   },
 ]
-

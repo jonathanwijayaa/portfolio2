@@ -19,13 +19,34 @@ export default function Sidebar({ activeSection }: SidebarProps) {
   const [hoveredNav, setHoveredNav] = useState<string | null>(null)
 
   return (
-    <aside className="flex flex-col justify-between h-full max-h-screen py-24">
-      {/* Name + Tagline + Nav */}
+    <aside className="flex flex-col justify-between h-full max-h-screen py-16 lg:py-20">
       <div>
-        <div className="mb-12">
+        {/* Profile Avatar / Sticker Card */}
+        <div className="relative w-28 h-28 mb-6 group cursor-pointer">
+          <img
+            src="/assets/image/foto2.jpg"
+            alt="Jonathan Wijaya"
+            className="w-full h-full object-cover rounded-3xl transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105"
+            style={{ border: `2px solid ${C.borderHover}` }}
+          />
+          <span
+            className="absolute -bottom-2 -right-2 text-[11px] font-mono px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-md backdrop-blur-md"
+            style={{
+              backgroundColor: `${C.surface}ee`,
+              color: C.accent,
+              border: `1px solid ${C.borderHover}`,
+            }}
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            Ready to code ✨
+          </span>
+        </div>
+
+        {/* Title & Short Bio */}
+        <div className="mb-10">
           <a href="#about">
             <h1
-              className="text-5xl font-bold tracking-tight mb-3 transition-colors duration-200 cursor-pointer"
+              className="text-4xl font-bold tracking-tight mb-2 transition-colors duration-200"
               style={{ color: C.textPrimary }}
               onMouseEnter={(e) => (e.currentTarget.style.color = C.accent)}
               onMouseLeave={(e) => (e.currentTarget.style.color = C.textPrimary)}
@@ -33,40 +54,35 @@ export default function Sidebar({ activeSection }: SidebarProps) {
               Jonathan Wijaya
             </h1>
           </a>
-          <h2 className="text-lg font-semibold mb-4" style={{ color: C.textPrimary, opacity: 0.9 }}>
+          <h2 className="text-base font-semibold mb-3" style={{ color: C.accent }}>
             Full-stack Web &amp; Android Developer
           </h2>
-          <p className="text-sm leading-relaxed max-w-xs" style={{ color: C.textSecondary }}>
-            Informatics student specializing in Full-stack Web &amp; Android Development with a strong UI/UX foundation. Passionate about bridging technical complexity with intuitive design.
+          <p className="text-xs leading-relaxed max-w-xs" style={{ color: C.textMuted }}>
+            Crafting smooth web platforms, civic tech, &amp; AI solutions with a solid UI/UX foundation
           </p>
         </div>
 
-        {/* Navigation */}
+        {/* Modular Navigation */}
         <nav aria-label="Page sections">
           <ul className="space-y-4">
             {navLinks.map(({ label, href }) => {
               const id = href.replace('#', '')
               const isActive = activeSection === id
               const isHovered = hoveredNav === id
-              const lineWidth = isActive || isHovered ? '64px' : '32px'
+              const lineWidth = isActive || isHovered ? '56px' : '28px'
               const lineColor = isActive ? C.accent : isHovered ? C.textSecondary : C.textMuted
+
               return (
                 <li key={label}>
                   <a
                     href={href}
                     className="group flex items-center gap-4 uppercase text-xs font-bold tracking-widest transition-colors duration-200"
                     style={{ color: isActive || isHovered ? C.textPrimary : C.textSecondary }}
-                    onMouseEnter={(e) => {
-                      setHoveredNav(id)
-                      e.currentTarget.style.color = C.textPrimary
-                    }}
-                    onMouseLeave={(e) => {
-                      setHoveredNav(null)
-                      e.currentTarget.style.color = isActive ? C.textPrimary : C.textSecondary
-                    }}
+                    onMouseEnter={() => setHoveredNav(id)}
+                    onMouseLeave={() => setHoveredNav(null)}
                   >
                     <span
-                      className="block h-px transition-all duration-300 ease-in-out"
+                      className="block h-px transition-all duration-300 ease-in-out rounded-full"
                       style={{ width: lineWidth, backgroundColor: lineColor }}
                     />
                     {label}
@@ -78,8 +94,8 @@ export default function Sidebar({ activeSection }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Theme toggle + Social Links */}
-      <div className="flex flex-col gap-4 mt-8">
+      {/* Theme Toggle & Social Links */}
+      <div className="flex flex-col gap-4 pt-6">
         <button
           onClick={toggle}
           aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -92,28 +108,28 @@ export default function Sidebar({ activeSection }: SidebarProps) {
           <span>{mode === 'dark' ? 'Light' : 'Dark'} Mode</span>
         </button>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4">
           {socialLinks.map(({ label, href, icon }) => {
-            const Icon = iconMap[icon]
+            const Icon = iconMap[icon] || GitHubIcon
             return (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                target={href.startsWith('mailto') ? undefined : '_blank'}
+                target={href.startsWith('mailto') || href.startsWith('https://wa.me') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                className="transition-all duration-200"
-                style={{ color: C.textMuted }}
+                className="p-2 rounded-xl transition-all duration-200 group"
+                style={{ backgroundColor: C.surface, border: `1px solid ${C.border}` }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = C.accent
-                  e.currentTarget.style.transform = 'translateY(-3px)'
+                  e.currentTarget.style.borderColor = C.accent
+                  e.currentTarget.style.transform = 'translateY(-2px)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = C.textMuted
+                  e.currentTarget.style.borderColor = C.border
                   e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 transition-colors duration-200" style={{ color: C.textSecondary }} />
               </a>
             )
           })}

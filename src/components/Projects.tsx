@@ -1,18 +1,16 @@
+import {memo} from 'react'
 import { projects } from '../data'
-import { ExternalLinkIcon, GitHubIcon, ArrowUpRightIcon, ChevronRightIcon, FolderIcon } from './Icons'
+import { ExternalLinkIcon, GitHubIcon, ChevronRightIcon, FolderIcon } from './Icons'
 import { useTheme } from '../ThemeContext'
 import type { CardItem } from '../App'
-
-const DESC_MAX_HEIGHT = '6.1rem'
 
 interface ProjectsProps {
   selectedCard: CardItem | null
   onSelect: (card: CardItem) => void
 }
 
-export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
+function Projects({ selectedCard, onSelect }: ProjectsProps) {
   const { C } = useTheme()
-
   const featured = projects.filter((p) => p.featured)
   const others = projects.filter((p) => !p.featured)
 
@@ -32,276 +30,194 @@ export default function Projects({ selectedCard, onSelect }: ProjectsProps) {
         </h2>
       </div>
 
-      {/* Featured projects */}
-      <ol className="space-y-1">
+      {/* Featured Projects Grid (Card Kotak Clean) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {featured.map((project, i) => {
           const cardItem: CardItem = { ...project, type: 'project' }
           const isSelected = selectedCard?.title === project.title
-          const hasMore = project.description.length > 1
 
           return (
-            <li key={i}>
-              <div
-                className="group relative flex flex-col gap-3 rounded-2xl p-4 transition-all duration-300 cursor-pointer sm:grid sm:gap-4"
-                style={{
-                  gridTemplateColumns: 'clamp(100px,18%,140px) 1fr',
-                  backgroundColor: isSelected ? C.surface : 'transparent',
-                  boxShadow: isSelected
-                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                    : 'none',
-                  outline: isSelected ? `1px solid ${C.borderHover}` : 'none',
-                }}
-                onClick={() => onSelect(cardItem)}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.backgroundColor = C.surface
-                  el.style.boxShadow = `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.backgroundColor = isSelected ? C.surface : 'transparent'
-                  el.style.boxShadow = isSelected
-                    ? `inset 0 1px 0 0 ${C.borderHover}, 0 8px 32px rgba(0,0,0,0.4)`
-                    : 'none'
-                }}
-              >
-                {/* Thumbnail */}
-                <div className="z-10 mt-1">
-                  <div
-                    className="w-full rounded-md overflow-hidden"
-                    style={{ aspectRatio: '16/9', border: `1px solid ${C.border}` }}
-                  >
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+            <div
+              key={i}
+              className="group relative flex flex-col justify-between rounded-3xl p-4 transition-all duration-300 cursor-pointer overflow-hidden"
+              style={{
+                backgroundColor: isSelected ? C.surface : C.surface,
+                border: `1px solid ${isSelected ? C.accent : C.border}`,
+                boxShadow: isSelected
+                  ? `0 8px 30px ${C.accentGlow}`
+                  : '0 4px 12px rgba(0,0,0,0.1)',
+              }}
+              onClick={() => onSelect(cardItem)}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLDivElement
+                el.style.borderColor = C.accent
+                el.style.transform = 'translateY(-3px)'
+                el.style.boxShadow = `0 12px 24px ${C.accentGlow}`
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLDivElement
+                el.style.borderColor = isSelected ? C.accent : C.border
+                el.style.transform = 'translateY(0)'
+                el.style.boxShadow = isSelected
+                  ? `0 8px 30px ${C.accentGlow}`
+                  : '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <div>
+                {/* Thumbnail Gambar Kotak */}
+                <div
+                  className="w-full rounded-2xl overflow-hidden mb-3.5 bg-slate-900/50"
+                  style={{ aspectRatio: '16/10', border: `1px solid ${C.border}` }}
+                >
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
 
-                {/* Content */}
-                <div className="z-10">
-                  <h3 className="font-medium mb-2 text-sm leading-snug">
-                    <a
-                      href={project.liveUrl ?? project.githubUrl ?? '#'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 transition-colors duration-200 group/link"
-                      style={{ color: C.textPrimary }}
-                      onClick={(e) => e.stopPropagation()}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = C.accent)
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = C.textPrimary)
-                      }
+                {/* Judul Proyek */}
+                <h3 className="font-bold text-base mb-2 leading-snug" style={{ color: C.textPrimary }}>
+                  {project.title}
+                </h3>
+
+                {/* Tech stack badges */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="inline-flex items-center rounded-xl px-2.5 py-0.5 text-[11px] font-medium font-mono"
+                      style={{ backgroundColor: C.accentDim, color: C.accent }}
                     >
-                      {project.title}
-                      <ArrowUpRightIcon className="w-3.5 h-3.5 opacity-0 group-hover/link:opacity-100 transition-all duration-200" />
-                    </a>
-                  </h3>
-
-                  {/* Description — clamped */}
-                  <div className="mb-2" style={{ maxHeight: DESC_MAX_HEIGHT, overflow: 'hidden' }}>
-                    <ul className="space-y-1.5">
-                      {project.description.map((bullet, bi) => (
-                        <li
-                          key={bi}
-                          className="flex gap-2.5 text-sm leading-relaxed"
-                          style={{ color: C.textSecondary }}
-                        >
-                          <span
-                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
-                            style={{ backgroundColor: C.textMuted }}
-                          />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Tap for details */}
-                  {hasMore && (
-                    <button
-                      className="flex items-center gap-1.5 text-xs font-mono mb-3 transition-opacity duration-200"
-                      style={{ color: C.accent }}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onSelect(cardItem)
-                      }}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.opacity = '0.7')
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.opacity = '1')
-                      }
-                    >
-                      Tap for Details
-                      <ChevronRightIcon className="w-3 h-3" />
-                    </button>
-                  )}
-
-                  {/* Tech tags */}
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium font-mono"
-                        style={{ backgroundColor: C.accentDim, color: C.accent }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex items-center gap-3">
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} GitHub`}
-                        className="transition-colors duration-200"
-                        style={{ color: C.textMuted }}
-                        onClick={(e) => e.stopPropagation()}
-                        onMouseEnter={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color = C.accent)
-                        }
-                        onMouseLeave={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color = C.textMuted)
-                        }
-                      >
-                        <GitHubIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} live`}
-                        className="transition-colors duration-200"
-                        style={{ color: C.textMuted }}
-                        onClick={(e) => e.stopPropagation()}
-                        onMouseEnter={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color = C.accent)
-                        }
-                        onMouseLeave={(e) =>
-                          ((e.currentTarget as HTMLElement).style.color = C.textMuted)
-                        }
-                      >
-                        <ExternalLinkIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </li>
+
+              {/* Card Footer: Tap for details & Quick links */}
+              <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: `${C.border}` }}>
+                <span
+                  className="inline-flex items-center gap-1 text-xs font-mono font-semibold transition-colors duration-200"
+                  style={{ color: C.accent }}
+                >
+                  Tap for Details
+                  <ChevronRightIcon className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                </span>
+
+                <div className="flex items-center gap-2.5">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${project.title} GitHub`}
+                      className="p-1 rounded-lg transition-colors duration-200"
+                      style={{ color: C.textMuted }}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
+                    >
+                      <GitHubIcon className="w-4 h-4" />
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${project.title} Live`}
+                      className="p-1 rounded-lg transition-colors duration-200"
+                      style={{ color: C.textMuted }}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
+                    >
+                      <ExternalLinkIcon className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
           )
         })}
-      </ol>
+      </div>
 
-      {/* Other projects */}
+      {/* Other Projects Section */}
       {others.length > 0 && (
-        <div className="mt-10">
+        <div className="mt-12">
           <h3
-            className="text-xs font-bold uppercase tracking-widest mb-5 pl-4"
+            className="text-xs font-mono font-semibold uppercase tracking-wider mb-4 pl-1"
             style={{ color: C.textMuted }}
           >
             Other Noteworthy Projects
           </h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {others.map((project, i) => (
-              <li key={i}>
-                <div
-                  className="flex flex-col justify-between h-full rounded-2xl p-5 transition-all duration-300"
-                  style={{ border: `1px solid ${C.border}` }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = C.borderHover
-                    el.style.backgroundColor = C.surface
-                    el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = C.border
-                    el.style.backgroundColor = 'transparent'
-                    el.style.boxShadow = 'none'
-                  }}
-                >
-                  <div>
-                    <div className="flex items-start justify-between mb-3">
-                      <FolderIcon className="w-8 h-8" style={{ stroke: C.accent }} />
-                      <div className="flex items-center gap-3">
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors duration-200"
-                            style={{ color: C.textMuted }}
-                            onMouseEnter={(e) =>
-                              ((e.currentTarget as HTMLElement).style.color = C.accent)
-                            }
-                            onMouseLeave={(e) =>
-                              ((e.currentTarget as HTMLElement).style.color = C.textMuted)
-                            }
-                          >
-                            <GitHubIcon className="w-4 h-4" />
-                          </a>
-                        )}
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors duration-200"
-                            style={{ color: C.textMuted }}
-                            onMouseEnter={(e) =>
-                              ((e.currentTarget as HTMLElement).style.color = C.accent)
-                            }
-                            onMouseLeave={(e) =>
-                              ((e.currentTarget as HTMLElement).style.color = C.textMuted)
-                            }
-                          >
-                            <ExternalLinkIcon className="w-4 h-4" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                    <h4 className="font-medium mb-2 text-sm" style={{ color: C.textPrimary }}>
-                      {project.title}
-                    </h4>
-                    <ul className="space-y-1">
-                      {project.description.map((bullet, bi) => (
-                        <li
-                          key={bi}
-                          className="flex gap-2 text-sm leading-relaxed"
-                          style={{ color: C.textSecondary }}
+              <div
+                key={i}
+                className="flex flex-col justify-between rounded-2xl p-4 transition-all duration-300"
+                style={{ backgroundColor: C.surface, border: `1px solid ${C.border}` }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.borderColor = C.accent
+                  el.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.borderColor = C.border
+                  el.style.transform = 'translateY(0)'
+                }}
+              >
+                <div>
+                  <div className="flex items-start justify-between mb-2.5">
+                    <FolderIcon className="w-6 h-6" style={{ stroke: C.accent }} />
+                    <div className="flex items-center gap-2">
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-colors duration-200"
+                          style={{ color: C.textMuted }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
                         >
-                          <span
-                            className="mt-1.5 shrink-0 w-1 h-1 rounded-full"
-                            style={{ backgroundColor: C.textMuted }}
-                          />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
+                          <GitHubIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-colors duration-200"
+                          style={{ color: C.textMuted }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accent)}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
+                        >
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                  <ul className="flex flex-wrap gap-1.5 mt-4">
-                    {project.tech.map((t) => (
-                      <li key={t} className="text-xs font-mono" style={{ color: `${C.accent}bb` }}>
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
+                  <h4 className="font-semibold text-sm mb-1" style={{ color: C.textPrimary }}>
+                    {project.title}
+                  </h4>
                 </div>
-              </li>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {project.tech.map((t) => (
+                    <span key={t} className="text-[11px] font-mono" style={{ color: C.accent }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </section>
   )
 }
+export default memo(Projects)

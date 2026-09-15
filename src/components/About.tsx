@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { useTheme } from '../ThemeContext'
 import { ArrowRightIcon } from './Icons'
 
-export default function About() {
+function About() {
   const { C } = useTheme()
 
   return (
@@ -21,40 +22,21 @@ export default function About() {
       </div>
 
       <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: C.textSecondary }}>
-        {/* Photo */}
-        <div className="mb-2">
-          <div
-            className="relative w-48 h-56 rounded-2xl overflow-hidden shadow-2xl group"
-            style={{ border: `2px solid ${C.borderHover}` }}
-          >
-            <img
-              src="/assets/image/foto2.jpg"
-              alt="Jonathan Wijaya"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse at center, transparent 55%, ${C.bg}55 100%)`,
-              }}
-            />
-          </div>
-        </div>
-
         <p>
           An{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>Informatics student</span>{' '}
-          specializing in Full-stack Web &amp; Android Development with a strong{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>UI/UX foundation</span>. Proven collaborator in
-          high-impact organizations and international projects, successfully managing stakeholders and
-          administrative workflows for events.
+          <span style={{ color: C.textPrimary, fontWeight: 600 }}>Informatics graduate</span>{' '}
+          specializing in Full-stack Web &amp; Android Development. I've built a government civic tech platform used by{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>BAPPEDA Yogyakarta</span>, an AI-powered chatbot with custom content guardrails, and a multi-role LMS handling real production traffic — all with a strong{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>UI/UX foundation</span>.
         </p>
+
         <p>
           Passionate about{' '}
           <span style={{ color: C.textPrimary, fontWeight: 500 }}>bridging technical complexity</span>{' '}
           with intuitive design through agile teamwork. I believe every line of code should serve a
           purpose — building solutions that are as elegant as they are functional.
         </p>
+
         <p>
           Currently open to{' '}
           <span style={{ color: C.accent, fontWeight: 500 }}>new opportunities</span> and
@@ -64,21 +46,22 @@ export default function About() {
         {/* CV Link */}
         <div className="pt-2">
           <a
-            href="/Jonathan Wijaya_resume.pdf"
+            href="/Jonathan Wijaya-resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-sm rounded px-4 py-2 transition-all duration-200 group"
+            className="inline-flex items-center gap-2 font-mono text-sm rounded-xl px-4 py-2.5 transition-all duration-200 group"
             style={{
               color: C.accent,
-              border: `1px solid ${C.accent}44`,
+              backgroundColor: C.accentDim,
+              border: `1px solid ${C.borderHover}`,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = C.accentDim
+              e.currentTarget.style.backgroundColor = C.surface
               e.currentTarget.style.borderColor = C.accent
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.borderColor = `${C.accent}44`
+              e.currentTarget.style.backgroundColor = C.accentDim
+              e.currentTarget.style.borderColor = C.borderHover
             }}
           >
             View Full CV
@@ -89,3 +72,4 @@ export default function About() {
     </section>
   )
 }
+export default memo(About)
