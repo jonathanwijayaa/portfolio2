@@ -5,7 +5,6 @@ import { useTheme } from '../ThemeContext'
 import type { CardItem } from '../types'
 import SectionHeader from './ui/SectionHeader'
 import TechBadge from './ui/TechBadge'
-import ResumeButton from './ui/ResumeButton'
 
 interface ExperienceProps {
   selectedCard: CardItem | null
