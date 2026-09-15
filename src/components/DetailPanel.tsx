@@ -21,15 +21,7 @@ export default function DetailPanel({ card, onClose }: DetailPanelProps) {
       }}
     >
       <div>
-        <div
-          className="sticky top-0 z-30 -mx-5 px-5 py-4 mb-6 flex items-center justify-between lg:static lg:p-0 lg:m-0 lg:mb-8 lg:bg-transparent"
-          style={{
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            backgroundColor: `${C.bg}cc`,
-            borderBottom: `1px solid ${C.border}`,
-          }}
-        >
+        <div className="sticky top-0 z-30 -mx-5 px-5 py-4 mb-6 flex items-center justify-between lg:static lg:p-0 lg:m-0 lg:mb-8 bg-transparent">
           <button
             onClick={onClose}
             className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest transition-colors duration-200"
