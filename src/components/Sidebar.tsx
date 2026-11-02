@@ -49,10 +49,10 @@ export default function Sidebar({ activeSection }: SidebarProps) {
             </h1>
           </a>
           <h2 className="text-base font-semibold mb-3" style={{ color: C.accent }}>
-            Full-stack Web &amp; Android Developer
+            Full-stack Developer
           </h2>
           <p className="text-xs leading-relaxed max-w-xs" style={{ color: C.textMuted }}>
-            Crafting smooth web platforms, civic tech, &amp; AI solutions with a solid UI/UX foundation
+            Crafting smooth web platforms, civic tech, &amp; AI solutions with a solid UI/UX foundation and user-focused application development.
           </p>
         </div>
 

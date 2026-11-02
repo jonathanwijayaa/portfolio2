@@ -48,24 +48,42 @@ function About() {
 
       <div className="flex flex-col gap-5 text-base lg:text-lg leading-relaxed" style={{ color: C.textSecondary }}>
         <p>
-          An{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 600 }}>Informatics graduate</span>{' '}
-          specializing in Full-stack Web &amp; Android Development. I've built a government civic tech platform used by{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>BAPPEDA Yogyakarta</span>, an AI-powered chatbot with custom content guardrails, and a multi-role LMS handling real production traffic — all with a strong{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>UI/UX foundation</span>.
+          I'm an{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 600 }}>
+            Informatics graduate from UKDW
+          </span>
+          , focused on full-stack web development with a strong frontend foundation. I build user-focused applications using technologies like{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>
+            React.js, TypeScript, and Supabase
+          </span>.
         </p>
 
         <p>
-          Passionate about{' '}
-          <span style={{ color: C.textPrimary, fontWeight: 500 }}>bridging technical complexity</span>{' '}
-          with intuitive design through agile teamwork. I believe every line of code should serve a
-          purpose — building solutions that are as elegant as they are functional.
+          My experience includes contributing to a multi-role LMS at{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>
+            Study First
+          </span>{' '}
+          and serving as the sole frontend developer and UI/UX designer for a volunteer-data management platform developed in collaboration with{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>
+            BAPPEDA Kota Yogyakarta
+          </span>
+          . I've also built an AI-powered café recommendation chatbot and an Android application using Kotlin and Jetpack Compose.
+        </p>
+
+        <p>
+          I enjoy turning{' '}
+          <span style={{ color: C.textPrimary, fontWeight: 500 }}>
+            real-world requirements into practical software
+          </span>
+          , from implementing role-based access and Excel data-import workflows to evaluating usability through structured testing.
         </p>
 
         <p>
           Currently open to{' '}
-          <span style={{ color: C.accent, fontWeight: 500 }}>new opportunities</span> and
-          collaborations in web development, Android engineering, or UI/UX design.
+          <span style={{ color: C.accent, fontWeight: 500 }}>
+            new opportunities
+          </span>{' '}
+          in web development and software engineering.
         </p>
 
         <div className="pt-2">
